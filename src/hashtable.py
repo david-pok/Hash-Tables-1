@@ -51,9 +51,24 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
-
-
+        # use hash_mod to get the correct index of the key
+        # create a LinkedPair thing using the given key, value
+        # insert the new LinkedPair thing into the calculated index of storage
+        # if there is something there, set the newly inserted as the next to already inserted
+        index = self._hash_mod(key)
+        # print("INDEX>>>>>>", index)
+        inserting = LinkedPair(key, value)
+        # print("NEXT>>>>>>", self.storage[index].next)
+        node = self.storage[index]
+        # print('NODE>>>>>>>>>', node)
+        if node is None:
+            node = inserting
+        else:
+            next_node = self.storage[index].next
+            while next_node:
+                cur_node = next_node
+                next_node = cur_node.next
+            cur_node.next = inserting
 
     def remove(self, key):
         '''
@@ -64,6 +79,12 @@ class HashTable:
         Fill this in.
         '''
         pass
+        # use hash_mod to calculate index from the key
+        # if the index has nothing, print the warning
+        # if the first linkedPair has the key we remove it
+        # if it doesn't, look at the linkedPair's next's key
+        # repeat if necesary
+        # remove if found
 
 
     def retrieve(self, key):
@@ -75,6 +96,11 @@ class HashTable:
         Fill this in.
         '''
         pass
+        # hash_mod to calculate index
+        # look into index, if none, then return none
+        # if there is, match key, if matched, return value
+        #if no match, check the next, repeat if necesary
+        # return value
 
 
     def resize(self):
