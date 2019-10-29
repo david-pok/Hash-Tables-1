@@ -56,19 +56,19 @@ class HashTable:
         # insert the new LinkedPair thing into the calculated index of storage
         # if there is something there, set the newly inserted as the next to already inserted
         index = self._hash_mod(key)
-        # print("INDEX>>>>>>", index)
         inserting = LinkedPair(key, value)
-        # print("NEXT>>>>>>", self.storage[index].next)
         node = self.storage[index]
-        # print('NODE>>>>>>>>>', node)
+        final_node = None
+
+        while node is not None and node.key != key:
+            final_node = node
+            node = final_node.next
+
         if node is None:
-            node = inserting
+            inserting.next = self.storage[index]
+            self.storage[index] = node
         else:
-            next_node = self.storage[index].next
-            while next_node:
-                cur_node = next_node
-                next_node = cur_node.next
-            cur_node.next = inserting
+            node.value = value
 
     def remove(self, key):
         '''
@@ -85,7 +85,20 @@ class HashTable:
         # if it doesn't, look at the linkedPair's next's key
         # repeat if necesary
         # remove if found
+        index = self._hash_mod(key)
+        node = self.storage[index]
+        cur_node = None
+        prev_node = None
 
+        while node.key != key:
+            prev_node = node
+            node = prev_node.next
+
+        if node.key == key:
+            prev_node.next = node.next
+
+        if node is None:
+            print("Not Found")
 
     def retrieve(self, key):
         '''
@@ -101,7 +114,19 @@ class HashTable:
         # if there is, match key, if matched, return value
         #if no match, check the next, repeat if necesary
         # return value
+        index = self._hash_mod(key)
+        node = self.storage[index]
+        next_node = None
 
+        if node is None:
+            return None
+
+        while node is not None and node.key != key:
+            next_node = node.next
+            node = next_node
+
+        if node.key == key:
+            return node.value
 
     def resize(self):
         '''
